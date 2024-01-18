@@ -5,8 +5,9 @@ import {Button, Input, useModal} from '../../components';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../RootStack';
-import {useAppDispatch} from '../../redux/store';
+import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {setSelected} from '../../redux/actions/user';
+import {useUser} from '../../hooks/useUser';
 
 type NewBeneficiaryProps = NativeStackNavigationProp<
   RootStackParamList,
@@ -15,8 +16,10 @@ type NewBeneficiaryProps = NativeStackNavigationProp<
 
 const NewBeneficiary = () => {
   const dispatch = useAppDispatch();
+  const {handleUpdateBeneficiary} = useUser();
   const navigation = useNavigation<NewBeneficiaryProps>();
   const {openModal, closeModal} = useModal();
+  const bList = useAppSelector(s => s.userReducer.user?.beneficiaryList) || [];
 
   const {handleChange, handleBlur, values, touched, errors, handleSubmit} =
     useFormik({
@@ -27,7 +30,8 @@ const NewBeneficiary = () => {
       },
       onSubmit: async () => {
         const rand = Math.random() * 2;
-        if (rand >= 1) {
+        console.log('rand: ',rand)
+        if (rand <= 1) {
           openModal('error', {
             onOk: () => {
               navigation.replace('Home');
@@ -36,14 +40,17 @@ const NewBeneficiary = () => {
             title: 'Error',
             text: 'Somemthing Happend..., please try again later',
           });
+        } else {
+          handleUpdateBeneficiary([...bList, values]);
+          dispatch(setSelected(values));
+          navigation.navigate('Amount');
         }
-        dispatch(setSelected(values));
-        navigation.navigate('Amount');
       },
     });
 
+    
   return (
-    <View style={{padding: 15, gap: 10, justifyContent: 'space-around'}}>
+    <View style={{flex: 1, padding: 15, gap: 10, justifyContent: 'center'}}>
       <Text>NewBeneficiary</Text>
       <View style={{flex: 1}}>
         <Input

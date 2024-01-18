@@ -1,8 +1,15 @@
 import {useCallback, useEffect} from 'react';
-import {setError, setLoading, setUser, updateUser} from '../redux/actions/user';
+import {
+  setError,
+  setLoading,
+  setUser,
+  updateBeneficiary,
+  updateUser,
+} from '../redux/actions/user';
 import {useAppDispatch, useAppSelector} from '../redux/store';
 import {Api} from '../services/api';
 import {User} from '../models/User';
+import {Beneficiary} from './../models/Beneficiary';
 
 export const useUser = () => {
   const dispatch = useAppDispatch();
@@ -38,6 +45,12 @@ export const useUser = () => {
     },
     [dispatch],
   );
+  const handleUpdateBeneficiary = useCallback(
+    async (beneficiary: Beneficiary[]) => {
+      user && dispatch(updateUser({...user, beneficiaryList: beneficiary}));
+    },
+    [dispatch],
+  );
 
   const handleGetBeneficiary = useCallback(async () => {
     if (!user?.beneficiaryList) {
@@ -58,6 +71,7 @@ export const useUser = () => {
     loading,
     error,
     handleUpdateUser,
+    handleUpdateBeneficiary,
     handleSetError,
     handleSetLoading,
     handleGetUser,

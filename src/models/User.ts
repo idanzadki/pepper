@@ -4,5 +4,5 @@ export interface User {
   acount: string;
   balance: number;
   username: string;
-  beneficiaryList?: Beneficiary[];
+  beneficiaryList: Beneficiary[];
 }
