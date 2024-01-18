@@ -4,4 +4,6 @@ export type RootStackParamList = {
   Transfer: undefined;
   NewBeneficiary: undefined;
   Amount: undefined;
+  UserTab: undefined;
+  TransferTab: undefined;
 };

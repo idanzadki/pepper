@@ -16,7 +16,7 @@ interface Props {
   optFunc?: (text: string) => string;
   title?: string;
   value: string;
-  type?: KeyboardTypeOptions;
+  type?: KeyboardTypeOptions | 'password';
   touched?: boolean;
   error?: string;
   maxLength?: number;
@@ -50,16 +50,20 @@ export const Input = ({
   const [isFocused, setIsFocused] = useState(false);
   return (
     <View style={{justifyContent: 'center', width: '100%', margin: 2}}>
-      <Text style={{fontWeight: 'bold'}}>{title || children}</Text>
+      <Text style={{fontWeight: 'bold', textAlign: 'auto'}}>
+        {title || children}
+      </Text>
       <TextInput
         ref={reference} // can only be assigned using useRef<TextInput>(), do not pass strings here
         onTouchStart={onTouch}
         secureTextEntry={type === 'password'}
         keyboardType={keyboard}
         style={{
+          // textDecorationColor: 'green',
           borderWidth: 1,
           justifyContent: 'center',
           alignItems: 'center',
+
           borderColor:
             isFocused === true ? Colors.green : Colors.systemDarkGray,
           borderEndColor: Colors.white,
@@ -68,9 +72,9 @@ export const Input = ({
             borderTopLeftRadius: 0,
             borderBottomLeftRadius: 0,
           }),
-          backgroundColor: 'white',
+          backgroundColor: Colors.white,
           height: 46,
-          textAlign: 'left',
+          textAlign: 'center',
           direction: 'rtl',
           paddingLeft: 5,
           ...style,

@@ -1,4 +1,4 @@
-export interface Benificiary {
+export interface Beneficiary {
   name: string;
   acount: string;
 }

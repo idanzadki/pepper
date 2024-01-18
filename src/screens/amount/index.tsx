@@ -1,25 +1,21 @@
-import {useEffect, useMemo, useState} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../RootStack';
-import {useAppSelector} from '../../redux/store';
-import {useUser} from '../../hooks/useUser';
-import {Button, Input, Loading} from '../../components';
-import {AutoComplete} from '../../components/autoComplete';
-import {GenericScrollView} from '../../components/genericScrollView';
-import {setLoading} from '../../redux/actions/user';
-import {useAutoComplete} from '../../hooks/useAutoComplete';
-import {ImageHandler} from '../../utils/ImageHandler';
-import {Colors} from '../../assets/theme/colors';
-import {Benificiary} from './../../models/Beneficiary';
-import {styles} from './style';
+import {Text, View} from 'react-native';
 import {useFormik} from 'formik';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
+import {useAppSelector} from '../../redux/store';
+import {RootStackParamList} from '../RootStack';
+import {Button, Input} from '../../components';
 import {transferSchema} from '../../schema';
+import {useUser} from '../../hooks/useUser';
+import {styles} from './style';
 
-type AmountProps = NativeStackNavigationProp<RootStackParamList, 'Transfer'>;
+type AmountProps = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 const Amount = () => {
+  const {handleUpdateUser} = useUser();
+  const navigation = useNavigation<AmountProps>();
+  const user = useAppSelector(s => s.userReducer.user);
+  const selected = useAppSelector(s => s.userReducer.selectedBeneficiary);
   const balance = useAppSelector(s => s.userReducer.user?.balance) || 0;
   const {handleChange, handleBlur, values, touched, errors, handleSubmit} =
     useFormik({
@@ -29,17 +25,18 @@ const Amount = () => {
       },
 
       onSubmit: async () => {
-        console.log('Login: ', values);
-        9000099;
+        if (user) {
+          const update = {...user, balance: balance - values.amount};
+          handleUpdateUser(update);
+          navigation.replace('Home');
+        }
       },
     });
 
-  const navigation = useNavigation<AmountProps>();
-  // const loading = useAppSelector(s => s.userReducer.loading);
-
   return (
     <View style={styles.amount}>
-      <Text style={styles.h1}>{'מה הסכום המבוקש?'}</Text>
+      <Text
+        style={styles.h1}>{`כמה ברצונך להעביר אל - ${selected?.name}?`}</Text>
 
       <Input
         type="number-pad"
@@ -53,8 +50,6 @@ const Amount = () => {
       />
 
       <Button onClick={handleSubmit}>Continue</Button>
-
-      {/* {loading && <Loading />} */}
     </View>
   );
 };

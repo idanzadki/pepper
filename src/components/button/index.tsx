@@ -28,7 +28,7 @@ export const Button = ({
       borderRadius: 5,
       padding: 10,
       marginHorizontal: 15,
-      backgroundColor: color === 'Green' ? Colors.green : 'white',
+      backgroundColor: color === 'Green' ? Colors.green : Colors.white,
       // height: ,
       // width: 150,
       ...style,
@@ -37,7 +37,7 @@ export const Button = ({
     <Text
       style={{
         fontSize: 17,
-        color: color === 'Green' ? 'white' : '#428463',
+        color: color === 'Green' ? Colors.white : Colors.green,
         fontWeight: '600',
         textAlign: 'center',
       }}>

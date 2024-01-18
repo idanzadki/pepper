@@ -3,7 +3,7 @@ import {Colors} from '../../assets/theme/colors';
 
 export const styles = StyleSheet.create({
   search: {
-    flex: 0.3,
+    // flex: 0.3,
     gap: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -45,7 +45,8 @@ export const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     color: Colors.black,
-    justifyContent: 'center',
-    alignItems: 'center',
+    textAlign: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
 });

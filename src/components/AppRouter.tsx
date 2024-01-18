@@ -1,29 +1,15 @@
-import {useEffect, useState} from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
-import {useModal} from './modal';
-import {OnboardingNavigator, UserNavigator} from '../navigation';
-import {useUser} from '../hooks/useUser';
+import {UserNavigator} from '../navigation';
+
+const MainStack = createNativeStackNavigator();
 
 export const AppRouter = () => {
-  const [loading, setLoading] = useState(false);
-  const {user, error = true} = useUser();
-  // const {openModal, closeModal} = useModal();
-  // useEffect(() => {
-  //   if (Math.random() * 10 === 2) {
-  //     openModal('error', {
-  //       onOk: () => {
-  //         closeModal();
-  //       },
-  //       title: 'Error',
-  //       text: 'Somemthing Happend..., please try again later',
-  //     });
-  //   }
-  // }, []);
-
   return (
     <NavigationContainer>
-      {/* {!loading && !user ? <OnboardingNavigator /> : <UserNavigator />} */}
-      <OnboardingNavigator />
+      <MainStack.Navigator screenOptions={{headerShown: false}}>
+        <MainStack.Screen name="UserTab" component={UserNavigator} />
+      </MainStack.Navigator>
     </NavigationContainer>
   );
 };

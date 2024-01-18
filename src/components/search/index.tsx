@@ -5,6 +5,7 @@ import {styles} from './style';
 
 interface SearchProps {
   error?: string;
+  placeHolder?: string;
   handleChange: (text: string) => void;
   handleSelect: (item?: any) => void;
   touched?: boolean;
@@ -12,7 +13,12 @@ interface SearchProps {
   loading: boolean;
 }
 
-export const Search = ({handleChange, value, touched}: SearchProps) => {
+export const Search = ({
+  handleChange,
+  value,
+  touched,
+  placeHolder,
+}: SearchProps) => {
   return (
     <View style={styles.search}>
       <View style={styles.container}>
@@ -24,7 +30,7 @@ export const Search = ({handleChange, value, touched}: SearchProps) => {
           />
           <TextInput
             style={styles.searchInput}
-            placeholder="שם המוטב"
+            placeholder={placeHolder || 'Search'}
             value={value}
             onChangeText={handleChange}
           />

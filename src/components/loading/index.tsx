@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import {useEffect} from 'react';
 
-import { View, Animated, Easing, ViewStyle } from 'react-native';
-import { ImageHandler } from '../../utils/ImageHandler'; 
+import {View, Animated, Easing, ViewStyle} from 'react-native';
+import {ImageHandler} from '../../utils/ImageHandler';
 
-export const Loading = ({ style }: { style?: ViewStyle }) => {
+export const Loading = ({style}: {style?: ViewStyle}) => {
   const rotateValueHolder = new Animated.Value(0);
 
   const startImageRotateFunction = () => {
@@ -26,13 +26,13 @@ export const Loading = ({ style }: { style?: ViewStyle }) => {
   });
 
   return (
-    <View style={{ ...style }}>
+    <View style={{alignSelf: 'center', ...style}}>
       <Animated.Image
         style={{
           width: 50,
           height: 50,
           zIndex: 999999,
-          transform: [{ rotate: RotateData }],
+          transform: [{rotate: RotateData}],
         }}
         //   source={{
         //     uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png',

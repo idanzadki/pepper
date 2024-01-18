@@ -1,8 +1,8 @@
-import {Benificiary} from './Beneficiary';
+import {Beneficiary} from './Beneficiary';
 
 export interface User {
   acount: string;
   balance: number;
   username: string;
-  beneficiaryList?: Benificiary[];
+  beneficiaryList?: Beneficiary[];
 }

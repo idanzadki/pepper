@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native';
-import { Colors } from '../../../assets/theme/colors';
+import {StyleSheet} from 'react-native';
+import {Colors} from '../../assets/theme/colors';
 
 export const styles = StyleSheet.create({
   buttonView: {
     flex: 1,
-    borderColor: Colors.colors.primaryGreen,
+    borderColor: Colors.green,
     borderRadius: 5,
     borderWidth: 1,
     alignItems: 'center',
@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   buttonsContainer: {
-    backgroundColor: Colors.colors.primaryBackground,
+    backgroundColor: Colors.white,
     flexDirection: 'row',
   },
 });

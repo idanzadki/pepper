@@ -1,27 +1,23 @@
-import {useEffect, useState} from 'react';
 import {View, Text, KeyboardAvoidingView} from 'react-native';
 import {useFormik} from 'formik';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
 import {Colors} from '../../assets/theme/colors';
 import {loginValidationSchema} from '../../schema';
 import {useUser} from '../../hooks/useUser';
-import {useAppDispatch, useAppSelector} from '../../redux/store';
+import {useAppSelector} from '../../redux/store';
 import {Button, Input, Loading, useModal} from '../../components';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../RootStack';
-import {useNavigation} from '@react-navigation/native';
 
 type LoginProps = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 const Login = () => {
-  const dispatch = useAppDispatch();
   const navigation = useNavigation<LoginProps>();
   const {handleSetError, handleSetLoading, handleGetUser} = useUser();
   const {error = '', loading = true, user} = useAppSelector(s => s.userReducer);
   const {openModal, closeModal} = useModal();
 
   const handleError = (error: any) => {
-    console.log('Handle: ', error.message);
-
     handleSetError(error.message);
     openModal('error', {
       onOk: () => closeModal(),
@@ -29,8 +25,6 @@ const Login = () => {
       text: error.message,
     });
     handleSetLoading(false);
-
-    // throw Error('Login Error');
   };
 
   const {handleChange, handleBlur, values, touched, errors, handleSubmit} =
@@ -42,23 +36,17 @@ const Login = () => {
       },
 
       onSubmit: async () => {
-        // console.log('Login: ', values);
         handleSetLoading(true);
-        // await handleGetUser();
-
         navigation.navigate('Home');
       },
     });
-
-  useEffect(() => {
-    // console.log('loadijng: ', loading);
-  }, [loading]);
 
   return (
     <View
       style={{
         height: '100%',
         padding: 15,
+        backgroundColor: Colors.white,
       }}>
       <View style={{flex: 0.6}}>
         <Input
@@ -85,11 +73,9 @@ const Login = () => {
         style={{
           flex: 0.2,
           textAlign: 'left',
-          color: Colors.systemDarkGray,
           marginVertical: 20,
         }}>
-        We'll call or text to confirm your number, Standard message and data
-        rates apply
+        {'בבקשה הכנס את הפרטים שלך'}
       </Text>
       {loading && (
         <Loading style={{justifyContent: 'center', alignItems: 'center'}} />
@@ -108,8 +94,6 @@ const Login = () => {
                 title: 'Error!',
                 text: 'Error',
               });
-              // handleError(error);
-              // handleSetLoading(false);
             }
           }}>
           Continue
@@ -120,14 +104,3 @@ const Login = () => {
 };
 
 export default Login;
-
-// import {Text, View} from 'react-native';
-
-// const Login = () =>
-//  (
-//   <View>
-//     <Text>Login</Text>
-//   </View>
-// );
-
-// export default Login;
