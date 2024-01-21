@@ -52,8 +52,8 @@ const Login = () => {
 
       <View style={{flex: 0.6}}>
         <Input
-          title="User Name"
-          placeHolder="User Name"
+          title="שם משתמש"
+          placeHolder="שם משתמש"
           value={values.userName}
           touched={touched.userName}
           error={errors.userName}
@@ -62,8 +62,8 @@ const Login = () => {
         />
         <Input
           type="password"
-          title="Password"
-          placeHolder="Password"
+          title="ססמא"
+          placeHolder="ססמא"
           value={values.password}
           touched={touched.password}
           error={errors.password}
