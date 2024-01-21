@@ -12,7 +12,8 @@ import {styles} from './style';
 type AmountProps = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 const Amount = () => {
-  const {handleUpdateUser, handleSetBeneficiary} = useUser();
+  const {handleUpdateUser, handleSetBeneficiary, handleNewBeneficiary} =
+    useUser();
   const {openModal} = useModal();
   const navigation = useNavigation<AmountProps>();
   const user = useAppSelector(s => s.userReducer.user);
@@ -36,13 +37,20 @@ const Amount = () => {
             onOk: () => {},
           });
         } else if (user) {
-          const update = {
-            ...user,
-            balance: balance - values.amount,
-            beneficiaryList: [...user.beneficiaryList, newB],
-          };
+          const update =
+            newB != null
+              ? {
+                  ...user,
+                  balance: balance - values.amount,
+                  beneficiaryList: [...user.beneficiaryList, newB],
+                }
+              : {
+                  ...user,
+                  balance: balance - values.amount,
+                };
           handleUpdateUser(update);
           handleSetBeneficiary(null);
+          handleNewBeneficiary(null);
 
           navigation.replace('Home');
         }

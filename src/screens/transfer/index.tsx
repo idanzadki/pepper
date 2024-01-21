@@ -86,7 +86,7 @@ const Transfer = () => {
         onClick={() => {
           navigation.navigate('NewBeneficiary');
         }}>
-        Add New
+        {'העבר למוטב חדש'}
       </Button>
     </View>
   );

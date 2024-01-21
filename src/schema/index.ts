@@ -7,29 +7,20 @@ export const phoneRegExp =
 export const mailRegExp = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 export const loginValidationSchema = Yup.object().shape({
-  userName: Yup.string().required('User Name Is Required!').min(1),
-  password: Yup.string().required('Password Is Required!').min(8),
-  // .test('emailPhone', 'Invalid email or phone number', (value) => {
-  //   if (mailRegExp.test(value)) {
-  //     return true;
-  //   } else if (phoneRegExp.test(value)) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }),
+  userName: Yup.string().required('שם משתמש חובה').min(1),
+  password: Yup.string().required('ססמא חובה').min(8),
 });
 
 export const NewBeneficiarySchema = () =>
   Yup.object().shape({
-    name: Yup.string().required('Name Is Required!').min(2),
-    acount: Yup.string().required('Acount Number Is Required!').min(8),
+    name: Yup.string().required('שם מוטב חובה').min(2),
+    acount: Yup.string().required('מספר חשבון חובה').min(8),
   });
 
 export const transferSchema = (maxAmount: number) =>
   Yup.object().shape({
     amount: Yup.number()
-      .required('User Name Is Required!')
-      .min(1)
-      .max(maxAmount),
+      .required('שזה סכום הוא חובה')
+      .min(1, () => 'סכום העברה חייב להיות גדול מ 0')
+      .max(maxAmount, () => `סכום העברה חייב להיות קטן מ ${maxAmount}`),
   });

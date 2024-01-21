@@ -50,9 +50,7 @@ export const Input = ({
   const [isFocused, setIsFocused] = useState(false);
   return (
     <View style={{justifyContent: 'center', width: '100%', margin: 2}}>
-      <Text style={{fontWeight: 'bold', textAlign: 'auto'}}>
-        {title || children}
-      </Text>
+      <Text style={{fontWeight: 'bold'}}>{title || children}</Text>
       <TextInput
         ref={reference} // can only be assigned using useRef<TextInput>(), do not pass strings here
         onTouchStart={onTouch}

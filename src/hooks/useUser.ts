@@ -3,6 +3,7 @@ import {useAppDispatch, useAppSelector} from '../redux/store';
 import {
   setError,
   setLoading,
+  setNew,
   setSelected,
   setUser,
   updateUser,
@@ -45,7 +46,7 @@ export const useUser = () => {
 
   const handleNewBeneficiary = callBackWrapper(
     async (beneficiary: Beneficiary) => {
-      dispatch(handleNewBeneficiary(beneficiary));
+      dispatch(setNew(beneficiary));
     },
   );
   const handleSetBeneficiary = callBackWrapper(

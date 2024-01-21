@@ -21,8 +21,8 @@ const Login = () => {
     useFormik({
       validationSchema: loginValidationSchema,
       initialValues: {
-        userName: '',
-        password: '',
+        userName: 'User',
+        password: '123456486',
       },
 
       onSubmit: async () => {
@@ -91,7 +91,7 @@ const Login = () => {
               });
             }
           }}>
-          Continue
+          {'התחבר'}
         </Button>
       </KeyboardAvoidingView>
     </View>

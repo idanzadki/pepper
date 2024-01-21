@@ -16,16 +16,10 @@ type NewBeneficiaryProps = NativeStackNavigationProp<
 >;
 
 const NewBeneficiary = () => {
-  const dispatch = useAppDispatch();
-  const {
-    handleUpdateBeneficiary,
-    handleSetError,
-    handleNewBeneficiary,
-    handleSetBeneficiary,
-  } = useUser();
+  const {handleSetError, handleNewBeneficiary, handleSetBeneficiary} =
+    useUser();
   const navigation = useNavigation<NewBeneficiaryProps>();
   const {openModal, closeModal} = useModal();
-  const bList = useAppSelector(s => s.userReducer.user?.beneficiaryList) || [];
   const error = useAppSelector(s => s.userReducer.error);
 
   const {handleChange, handleBlur, values, touched, errors, handleSubmit} =
@@ -33,15 +27,19 @@ const NewBeneficiary = () => {
       validationSchema: NewBeneficiarySchema,
       initialValues: {
         acount: '12345678',
-        name: 'Id',
+        name: 'Name',
       },
       onSubmit: async () => {
         const rand = Math.random() * 2;
         console.log('rand: ', rand);
         if (rand > 1) {
-          handleSetError('Cannot Create new Beneficiary');
+          handleSetError(
+            'Cannot Create new Beneficiary: ',
+            values.name || 'No Name',
+          );
         } else {
           handleNewBeneficiary(values);
+          handleSetBeneficiary(values);
           navigation.navigate('Amount');
         }
       },
@@ -62,11 +60,11 @@ const NewBeneficiary = () => {
 
   return (
     <View style={{flex: 1, padding: 15, gap: 10, justifyContent: 'center'}}>
-      <Text>NewBeneficiary</Text>
+      <Text style={{textAlign: 'center', fontSize: 25}}>מוטב חדש</Text>
       <View style={{flex: 1}}>
         <Input
-          title="Acount Number"
-          placeHolder="ffffffff"
+          title="חשבון מוטב"
+          placeHolder="מספר חשבון מוטב"
           value={`${values.acount}`}
           touched={touched.acount}
           error={errors.acount}
@@ -74,7 +72,7 @@ const NewBeneficiary = () => {
           handleBlur={handleBlur('acount')}
         />
         <Input
-          title="Account Name"
+          title="שם המוטב"
           placeHolder="Demo Demoian"
           value={`${values.name}`}
           touched={touched.name}
@@ -84,7 +82,7 @@ const NewBeneficiary = () => {
         />
       </View>
 
-      <Button onClick={handleSubmit}>Continue</Button>
+      <Button onClick={handleSubmit}>{'המשך'}</Button>
     </View>
   );
 };
