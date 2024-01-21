@@ -2,6 +2,7 @@ import {createReducer} from '@reduxjs/toolkit';
 import {
   setError,
   setLoading,
+  setNew,
   setSelected,
   setUser,
   updateUser,
@@ -12,6 +13,7 @@ import {Beneficiary} from '../../models/Beneficiary';
 interface UserReducer {
   user: User | null;
   selectedBeneficiary: Beneficiary | null;
+  newBeneficiary: Beneficiary | null;
   error: Error | string | null;
   loading: boolean;
 }
@@ -19,6 +21,7 @@ interface UserReducer {
 const initialState: UserReducer = {
   user: null,
   selectedBeneficiary: null,
+  newBeneficiary: null,
   error: null,
   loading: false,
 };
@@ -30,6 +33,9 @@ export const userReducer = createReducer(initialState, builder => {
     })
     .addCase(setSelected, (state, action) => {
       return {...state, selectedBeneficiary: action.payload};
+    })
+    .addCase(setNew, (state, action) => {
+      return {...state, newBeneficiary: action.payload};
     })
     .addCase(updateUser, (state, action) => {
       return {...state, user: {...action.payload}};

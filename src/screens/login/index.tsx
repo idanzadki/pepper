@@ -13,26 +13,16 @@ type LoginProps = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 const Login = () => {
   const navigation = useNavigation<LoginProps>();
-  const {handleSetError, handleSetLoading, handleGetUser} = useUser();
+  const {handleSetLoading} = useUser();
   const {error = '', loading = true, user} = useAppSelector(s => s.userReducer);
   const {openModal, closeModal} = useModal();
-
-  const handleError = (error: any) => {
-    handleSetError(error.message);
-    openModal('error', {
-      onOk: () => closeModal(),
-      title: 'Error!',
-      text: error.message,
-    });
-    handleSetLoading(false);
-  };
 
   const {handleChange, handleBlur, values, touched, errors, handleSubmit} =
     useFormik({
       validationSchema: loginValidationSchema,
       initialValues: {
-        userName: 'user',
-        password: '12345678',
+        userName: '',
+        password: '',
       },
 
       onSubmit: async () => {
@@ -44,10 +34,22 @@ const Login = () => {
   return (
     <View
       style={{
+        justifyContent: 'center',
         height: '100%',
         padding: 15,
         backgroundColor: Colors.white,
       }}>
+      <Text
+        style={{
+          flex: 0.1,
+          textAlign: 'center',
+          marginVertical: 20,
+          fontSize: 25,
+          fontWeight: 'bold',
+        }}>
+        {'Hello Pepper'}
+      </Text>
+
       <View style={{flex: 0.6}}>
         <Input
           title="User Name"
@@ -69,14 +71,7 @@ const Login = () => {
           handleBlur={handleBlur('password')}
         />
       </View>
-      <Text
-        style={{
-          flex: 0.2,
-          textAlign: 'left',
-          marginVertical: 20,
-        }}>
-        {'בבקשה הכנס את הפרטים שלך'}
-      </Text>
+
       {loading && (
         <Loading style={{justifyContent: 'center', alignItems: 'center'}} />
       )}

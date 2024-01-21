@@ -1,18 +1,9 @@
-interface Params {
-  id?: string;
-  phone_number?: string;
-  email?: string;
-}
+import {getBeneficiaryUrl, getUserUrl} from '../utils/consts';
 
-export const apiUrl = ({ id, phone_number, email }: Params = {}) => ({
-  baseUrl:'baseUrl',
+export const apiUrl = () => ({
+  baseUrl: 'baseUrl',
   users: {
-    getById: `/user/byId/${id}`,
-    register: '/user/insert_user',
-    auth: `/user/authentication`, //phone_number
-    getByPhone: '/user/byphone',
-    login: `/user/login/${email || phone_number}`,
-    update: '/user',
+    getUser: getUserUrl,
+    getBeneficiaryList: getBeneficiaryUrl,
   },
- 
 });

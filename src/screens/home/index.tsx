@@ -7,6 +7,7 @@ import {Colors} from '../../assets/theme/colors';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../RootStack';
+import {styles} from './style';
 
 type HomeProps = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -21,61 +22,33 @@ const Home = () => {
   }, []);
 
   return loading ? (
-    <View
-      style={{
-        flex: 1,
-        padding: 15,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      }}>
+    <View style={styles.loading}>
       <Loading />
     </View>
   ) : (
-    <View
-      style={{
-        flex: 1,
-        padding: 15,
-        justifyContent: 'space-between',
-      }}>
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <Text
-          style={{
-            margin: 10,
-            textAlign: 'center',
-            color: Colors.primaryText,
-            fontSize: 25,
-            fontWeight: 'bold',
-          }}>
-          Hello, {user?.username}
-        </Text>
-        <View
-          style={{
-            flex: 0.5,
-            borderWidth: 1,
-            borderRadius: 10,
-            shadowOpacity: 0.7,
-            shadowRadius: 15,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              textAlign: 'center',
-              color: Colors.primaryText,
-              fontSize: 15,
-              fontWeight: '600',
-            }}>
-            Balance: {user?.balance}
-          </Text>
-        </View>
+    <View style={styles.home}>
+      <Text style={styles.title}>{new Date().toLocaleDateString()}</Text>
+      <Text
+        style={{
+          margin: 10,
+          textAlign: 'center',
+          color: Colors.primaryText,
+          fontSize: 25,
+          fontWeight: 'bold',
+        }}>
+        {`שלום${'\n'} ${user?.username}`}
+      </Text>
+
+      <View style={styles.balance}>
+        <Text style={styles.title}>יתרת עו"ש: {user?.balance}</Text>
       </View>
+
       <Button
         disabled={loading}
         onClick={() => {
           navigation.navigate('TransferTab');
         }}>
-        Transfer
+        {'העברה בנקאית'}
       </Button>
     </View>
   );

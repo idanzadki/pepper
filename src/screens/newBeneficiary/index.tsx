@@ -8,6 +8,7 @@ import {RootStackParamList} from '../RootStack';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {setSelected} from '../../redux/actions/user';
 import {useUser} from '../../hooks/useUser';
+import {useEffect} from 'react';
 
 type NewBeneficiaryProps = NativeStackNavigationProp<
   RootStackParamList,
@@ -16,10 +17,16 @@ type NewBeneficiaryProps = NativeStackNavigationProp<
 
 const NewBeneficiary = () => {
   const dispatch = useAppDispatch();
-  const {handleUpdateBeneficiary} = useUser();
+  const {
+    handleUpdateBeneficiary,
+    handleSetError,
+    handleNewBeneficiary,
+    handleSetBeneficiary,
+  } = useUser();
   const navigation = useNavigation<NewBeneficiaryProps>();
   const {openModal, closeModal} = useModal();
   const bList = useAppSelector(s => s.userReducer.user?.beneficiaryList) || [];
+  const error = useAppSelector(s => s.userReducer.error);
 
   const {handleChange, handleBlur, values, touched, errors, handleSubmit} =
     useFormik({
@@ -30,25 +37,29 @@ const NewBeneficiary = () => {
       },
       onSubmit: async () => {
         const rand = Math.random() * 2;
-        console.log('rand: ',rand)
-        if (rand <= 1) {
-          openModal('error', {
-            onOk: () => {
-              navigation.replace('Home');
-              closeModal();
-            },
-            title: 'Error',
-            text: 'Somemthing Happend..., please try again later',
-          });
+        console.log('rand: ', rand);
+        if (rand > 1) {
+          handleSetError('Cannot Create new Beneficiary');
         } else {
-          handleUpdateBeneficiary([...bList, values]);
-          dispatch(setSelected(values));
+          handleNewBeneficiary(values);
           navigation.navigate('Amount');
         }
       },
     });
 
-    
+  useEffect(() => {
+    error != null &&
+      openModal('error', {
+        title: 'Error',
+        text: error.toString(),
+        onOk: () => {
+          navigation.replace('Home');
+          handleSetError(null);
+          closeModal();
+        },
+      });
+  }, [error]);
+
   return (
     <View style={{flex: 1, padding: 15, gap: 10, justifyContent: 'center'}}>
       <Text>NewBeneficiary</Text>

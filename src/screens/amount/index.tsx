@@ -4,7 +4,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '../../redux/store';
 import {RootStackParamList} from '../RootStack';
-import {Button, Input} from '../../components';
+import {Button, Input, useModal} from '../../components';
 import {transferSchema} from '../../schema';
 import {useUser} from '../../hooks/useUser';
 import {styles} from './style';
@@ -12,11 +12,15 @@ import {styles} from './style';
 type AmountProps = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 const Amount = () => {
-  const {handleUpdateUser} = useUser();
+  const {handleUpdateUser, handleSetBeneficiary} = useUser();
+  const {openModal} = useModal();
   const navigation = useNavigation<AmountProps>();
   const user = useAppSelector(s => s.userReducer.user);
   const selected = useAppSelector(s => s.userReducer.selectedBeneficiary);
+  const newB = useAppSelector(s => s.userReducer.newBeneficiary);
   const balance = useAppSelector(s => s.userReducer.user?.balance) || 0;
+  const error = useAppSelector(s => s.userReducer.error);
+
   const {handleChange, handleBlur, values, touched, errors, handleSubmit} =
     useFormik({
       validationSchema: transferSchema(balance),
@@ -25,9 +29,21 @@ const Amount = () => {
       },
 
       onSubmit: async () => {
-        if (user) {
-          const update = {...user, balance: balance - values.amount};
+        if (error) {
+          openModal('error', {
+            title: 'Error',
+            text: error.toString(),
+            onOk: () => {},
+          });
+        } else if (user) {
+          const update = {
+            ...user,
+            balance: balance - values.amount,
+            beneficiaryList: [...user.beneficiaryList, newB],
+          };
           handleUpdateUser(update);
+          handleSetBeneficiary(null);
+
           navigation.replace('Home');
         }
       },

@@ -5,7 +5,7 @@ export const images: {[key: string]: ImageSourcePropType} = {
   search: require('../assets/pictures/search.png'),
 };
 
-export const ImageHandler = (name: string) => {
-  const im = name in images ? images[name] : images.addPhoto;
-  return im;
+export const ImageHandler = (key: string) => {
+  const img = key in images ? images[key] : images.search;
+  return img;
 };
