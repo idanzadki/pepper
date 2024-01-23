@@ -1,9 +1,9 @@
-import {getBeneficiaryUrl, getUserUrl} from '../utils/consts';
+import {GET_BENEFECIARY_URL, GET_USER_URL} from '../utils/consts';
 
 export const apiUrl = () => ({
   baseUrl: 'baseUrl',
   users: {
-    getUser: getUserUrl,
-    getBeneficiaryList: getBeneficiaryUrl,
+    getUser: GET_USER_URL,
+    getBeneficiaryList: GET_BENEFECIARY_URL,
   },
 });

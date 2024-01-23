@@ -18,7 +18,10 @@ const Home = () => {
   const loading = useAppSelector(s => s.userReducer.loading);
 
   useEffect(() => {
-    !user && handleGetUser();
+    handleGetUser();
+    if (user !== null && Object.keys(user).length === 0) {
+      navigation.replace('Login');
+    }
   }, []);
 
   return loading ? (
@@ -26,31 +29,33 @@ const Home = () => {
       <Loading />
     </View>
   ) : (
-    <View style={styles.home}>
-      <Text style={styles.title}>{new Date().toLocaleDateString()}</Text>
-      <Text
-        style={{
-          margin: 10,
-          textAlign: 'center',
-          color: Colors.primaryText,
-          fontSize: 25,
-          fontWeight: 'bold',
-        }}>
-        {`שלום${'\n'} ${user?.username}`}
-      </Text>
+    user && (
+      <View style={styles.home}>
+        <Text style={styles.title}>{new Date().toLocaleDateString()}</Text>
+        <Text
+          style={{
+            margin: 10,
+            textAlign: 'center',
+            color: Colors.primaryText,
+            fontSize: 25,
+            fontWeight: 'bold',
+          }}>
+          {`שלום${'\n'} ${user?.username}`}
+        </Text>
 
-      <View style={styles.balance}>
-        <Text style={styles.title}>יתרת עו"ש: {user?.balance}</Text>
+        <View style={styles.balance}>
+          <Text style={styles.title}>יתרת עו"ש: {user?.balance}</Text>
+        </View>
+
+        <Button
+          disabled={loading}
+          onClick={() => {
+            navigation.navigate('TransferTab');
+          }}>
+          {'העברה בנקאית'}
+        </Button>
       </View>
-
-      <Button
-        disabled={loading}
-        onClick={() => {
-          navigation.navigate('TransferTab');
-        }}>
-        {'העברה בנקאית'}
-      </Button>
-    </View>
+    )
   );
 };
 

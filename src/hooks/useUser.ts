@@ -1,4 +1,4 @@
-import {getBeneficiaryList, getUser} from '../services/api';
+import {Api, getBeneficiaryList, getUser} from '../services/api';
 import {useAppDispatch, useAppSelector} from '../redux/store';
 import {
   setError,
@@ -10,6 +10,7 @@ import {
 } from '../redux/actions/user';
 import {User, Beneficiary} from '../models';
 import {callBackWrapper} from '../utils/helpers';
+import {GET_USER_URL} from '../utils/consts';
 
 export const useUser = () => {
   const dispatch = useAppDispatch();
@@ -25,12 +26,21 @@ export const useUser = () => {
   });
 
   const handleGetUser = callBackWrapper(() => {
-    dispatch(setLoading(true));
-    setTimeout(async () => {
-      const user = await getUser();
-      dispatch(setUser(user));
-      dispatch(setLoading(false));
-    }, 400);
+    try {
+      dispatch(setLoading(true));
+      setTimeout(async () => {
+        const {data: user} = (await Api.get(GET_USER_URL)) as {data: User};
+        if (user && Object.keys(user).length > 0) {
+          dispatch(setUser(user));
+        } else {
+          handleSetError('No User Exist');
+        }
+        dispatch(setLoading(false));
+        return user;
+      }, 400);
+    } catch (error) {
+      handleSetError('Server Error');
+    }
   });
 
   const handleUpdateUser = callBackWrapper(async (user: User) => {
@@ -42,6 +52,7 @@ export const useUser = () => {
     async (beneficiary: Beneficiary[]) => {
       user && dispatch(updateUser({...user, beneficiaryList: beneficiary}));
     },
+    [],
   );
 
   const handleNewBeneficiary = callBackWrapper(
@@ -60,8 +71,6 @@ export const useUser = () => {
       dispatch(setLoading(true));
       setTimeout(async () => {
         const list = await getBeneficiaryList();
-        console.log('lIST: ', list);
-
         user && dispatch(updateUser({...user, beneficiaryList: list}));
         dispatch(setLoading(false));
       }, 500);
